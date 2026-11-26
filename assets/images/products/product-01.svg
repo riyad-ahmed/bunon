@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <!-- Placeholder: Everyday Tote. Replace with a real photo (see products.js). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f1e1c"/>
+      <stop offset="1" stop-color="#121213"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#c8b48c" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#c8b48c" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="rows" width="14" height="14" patternUnits="userSpaceOnUse">
+      <path d="M0 4h14M0 10h14" stroke="#c8b48c" stroke-opacity="0.32" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <ellipse cx="400" cy="796" rx="230" ry="16" fill="#000" fill-opacity="0.45"/>
+  <path d="M310 410V340a90 90 0 0 1 180 0v70" fill="none" stroke="#c8b48c" stroke-opacity="0.7" stroke-width="7" stroke-linecap="round"/>
+  <path d="M230 400h340l30 380H200z" fill="#1c1b19"/>
+  <path d="M230 400h340l30 380H200z" fill="url(#rows)" stroke="#c8b48c" stroke-opacity="0.6" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M226 458H574" stroke="#c8b48c" stroke-opacity="0.55" stroke-width="2"/>
+</svg>

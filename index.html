@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BUNON — Woven with intention</title>
+  <meta name="description" content="BUNON makes quiet, enduring handcrafted pieces — woven slowly by skilled hands and made to be used every day.">
+  <meta name="theme-color" content="#0e0e0f">
+
+  <!-- Link previews (WhatsApp, Facebook, Messenger, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BUNON — Woven with intention">
+  <meta property="og:description" content="Quiet, enduring handcrafted pieces — woven slowly and made to be used every day.">
+  <!-- To show an image in link previews, add a 1200×630 JPG and your live URL:
+  <meta property="og:image" content="https://YOUR-USERNAME.github.io/YOUR-REPO/assets/images/og-image.jpg">
+  -->
+
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Turns on animations only when JavaScript is available -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ================================================================
+       HEADER
+       ================================================================ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#home" aria-label="BUNON, back to top">BUNON</a>
+
+      <nav class="nav" id="site-nav" aria-label="Main">
+        <ul class="nav-list">
+          <li style="--i:0"><a class="nav-link" href="#home">Home</a></li>
+          <li style="--i:1"><a class="nav-link" href="#about">About</a></li>
+          <li style="--i:2"><a class="nav-link" href="#products">Products</a></li>
+          <li style="--i:3"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ================================================================
+         HOME
+         ================================================================ -->
+    <section class="hero" id="home">
+      <div class="hero-bg" aria-hidden="true"></div>
+
+      <div class="container hero-inner">
+        <p class="eyebrow hero-anim" style="--d:0">Handcrafted essentials</p>
+        <h1 class="hero-title hero-anim" style="--d:1">Woven with<br><em>intention.</em></h1>
+        <p class="hero-lead hero-anim" style="--d:2">
+          Quiet, enduring pieces made slowly by skilled hands — designed for everyday use and made to be kept for years.
+        </p>
+        <div class="hero-actions hero-anim" style="--d:3">
+          <a class="btn btn-primary" href="#products">Explore the collection</a>
+          <a class="btn btn-ghost" href="#about">Our story</a>
+        </div>
+      </div>
+
+      <div class="container hero-foot hero-anim" style="--d:5" aria-hidden="true">
+        <p>Natural fibres &nbsp;·&nbsp; Made by hand &nbsp;·&nbsp; Small batches</p>
+        <span class="scroll-cue"><span></span></span>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         ABOUT
+         ================================================================ -->
+    <section class="section about" id="about">
+      <div class="container">
+        <p class="eyebrow reveal">About</p>
+
+        <div class="about-grid">
+          <h2 class="section-title reveal">Our name means <em>weaving</em>.</h2>
+          <div class="about-body">
+            <p class="reveal" style="--d:1">
+              BUNON comes from <span lang="bn">বুনন</span>, the Bangla word for weaving — the slow, patient work of
+              crossing thread over thread until something strong and beautiful takes shape.
+            </p>
+            <p class="reveal" style="--d:2">
+              We work with artisans and natural materials to make a small collection of everyday pieces.
+              No seasons, no excess — just things made well, meant to be used and kept.
+            </p>
+          </div>
+        </div>
+
+        <ul class="values">
+          <li class="value reveal" style="--d:0">
+            <span class="value-num">01</span>
+            <h3>Natural materials</h3>
+            <p>Cotton, jute, linen and seagrass — chosen for how they feel, wear and age.</p>
+          </li>
+          <li class="value reveal" style="--d:1">
+            <span class="value-num">02</span>
+            <h3>Made by hand</h3>
+            <p>Every piece is woven or stitched by skilled artisans, so no two are exactly alike.</p>
+          </li>
+          <li class="value reveal" style="--d:2">
+            <span class="value-num">03</span>
+            <h3>Built to last</h3>
+            <p>Fewer, better things — designed to be used daily, repaired and passed on.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         PRODUCTS  (cards are generated from assets/js/products.js)
+         ================================================================ -->
+    <section class="section products" id="products">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow reveal">Products</p>
+            <h2 class="section-title reveal">The collection</h2>
+          </div>
+          <p class="section-note reveal" style="--d:1">
+            Made in small batches. Tap “Enquire” on any piece and we’ll get back to you with availability.
+          </p>
+        </div>
+
+        <div class="product-grid" id="product-grid"></div>
+
+        <noscript>
+          <p class="section-note">Please enable JavaScript to view the collection.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CONTACT  (your details come from assets/js/config.js)
+         ================================================================ -->
+    <section class="section contact" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-info">
+          <p class="eyebrow reveal">Contact</p>
+          <h2 class="section-title reveal">Let’s <em>talk</em>.</h2>
+          <p class="contact-intro reveal" style="--d:1">
+            Questions about a piece, custom orders or collaborations — we’d love to hear from you.
+          </p>
+
+          <dl class="contact-list reveal" style="--d:2">
+            <div data-row>
+              <dt>Email</dt>
+              <dd><a data-bind="email"></a></dd>
+            </div>
+            <div data-row>
+              <dt>Phone</dt>
+              <dd><a data-bind="phone"></a></dd>
+            </div>
+            <div data-row>
+              <dt>Studio</dt>
+              <dd data-bind="location"></dd>
+            </div>
+          </dl>
+
+          <ul class="socials reveal" style="--d:3">
+            <li data-row><a data-bind="instagram" target="_blank" rel="noopener">Instagram</a></li>
+            <li data-row><a data-bind="facebook" target="_blank" rel="noopener">Facebook</a></li>
+          </ul>
+        </div>
+
+        <form class="contact-form reveal" id="contact-form" style="--d:1" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+
+          <!-- Spam trap: real visitors never see or fill this -->
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <button class="btn btn-primary" type="submit">Send message</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-mark" aria-hidden="true">BUNON</p>
+      <div class="footer-meta">
+        <p>© <span id="year">2026</span> BUNON. All rights reserved.</p>
+        <a class="to-top" href="#home">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================================================================
+       SCRIPTS  (order matters: settings → products → payments → main)
+       ================================================================ -->
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/products.js" defer></script>
+
+  <!-- PAYMENTS — disabled for now. To turn on, read assets/js/payment.js, then uncomment:
+  <script src="assets/js/payment.js" defer></script>
+  -->
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

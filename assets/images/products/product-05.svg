@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <!-- Placeholder: Coiled Basket (top view). Replace with a real photo (see products.js). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f1e1c"/>
+      <stop offset="1" stop-color="#121213"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#c8b48c" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#c8b48c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+
+  <circle cx="400" cy="514" r="274" fill="#000" fill-opacity="0.4"/>
+  <circle cx="400" cy="500" r="270" fill="#1c1b19" stroke="#c8b48c" stroke-opacity="0.75" stroke-width="4"/>
+
+  <g fill="none" stroke="#c8b48c">
+    <circle cx="400" cy="500" r="254" stroke-opacity="0.32" stroke-width="22" stroke-dasharray="2.5 19"/>
+    <g stroke-opacity="0.35" stroke-width="1.6">
+      <circle cx="400" cy="500" r="230"/>
+      <circle cx="400" cy="500" r="205"/>
+      <circle cx="400" cy="500" r="180"/>
+      <circle cx="400" cy="500" r="155"/>
+      <circle cx="400" cy="500" r="130"/>
+      <circle cx="400" cy="500" r="105"/>
+      <circle cx="400" cy="500" r="80"/>
+      <circle cx="400" cy="500" r="55"/>
+      <circle cx="400" cy="500" r="30"/>
+    </g>
+    <circle cx="400" cy="500" r="142" stroke-opacity="0.28" stroke-width="14" stroke-dasharray="2 14"/>
+  </g>
+  <circle cx="400" cy="500" r="6" fill="#c8b48c" fill-opacity="0.6"/>
+</svg>
