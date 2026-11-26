@@ -41,10 +41,10 @@ npm run dev     # opens on http://localhost:5173 and updates as you edit
 | Colours, fonts, spacing, animation speed           | `src/styles/tokens.css`                          |
 | Menu items                                         | `src/config/navigation.js`                       |
 
-Contact details are still empty. Until an email, phone or social link is added in
-`src/config/site.js`, the Contact section says the details are coming soon and the
-"Enquire" buttons stay hidden. The contact form appears once there's an email (or a form
-service, see [Contact form](#contact-form)).
+Contact details (madebybunon@gmail.com, Facebook and Instagram) are set in
+`src/config/site.js`; an empty value is hidden. The contact form needs an email (or a form
+service, see [Contact form](#contact-form)). With no email, phone or social link at all,
+the Contact section says details are coming soon and the "Enquire" buttons hide.
 
 ## Products come from the Business Manager dashboard
 

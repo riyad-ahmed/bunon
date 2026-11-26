@@ -8,14 +8,14 @@ export const site = {
   name: 'BUNON',
 
   contact: {
-    email: '', // e.g. 'hello@bunon.com' — lets the contact form send messages
+    email: 'madebybunon@gmail.com', // lets the contact form send messages
     phone: '', // e.g. '+880 1XXX-XXXXXX'
     location: '', // e.g. 'Dhaka, Bangladesh'
   },
 
   social: {
-    instagram: '', // e.g. 'https://instagram.com/bunon'
-    facebook: '', // e.g. 'https://facebook.com/bunon'
+    facebook: 'https://www.facebook.com/madebybunon',
+    instagram: 'https://www.instagram.com/madebybunon/',
   },
 
   /**
@@ -38,8 +38,8 @@ export const site = {
 
 /** Social links that have an address, in display order. */
 export const socialLinks = [
-  { label: 'Instagram', href: site.social.instagram },
   { label: 'Facebook', href: site.social.facebook },
+  { label: 'Instagram', href: site.social.instagram },
 ].filter((link) => link.href)
 
 /** The contact form can deliver a message (an email address or form service is set). */
