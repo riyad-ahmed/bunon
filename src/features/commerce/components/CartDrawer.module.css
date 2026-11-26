@@ -1,0 +1,127 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-left: 1px solid var(--line);
+  background: var(--bg-raised);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: calc(20px + env(safe-area-inset-top, 0px)) 24px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+
+.count {
+  font-size: 1rem;
+  color: var(--text-faint);
+}
+
+.empty {
+  padding: 32px 24px;
+  color: var(--text-muted);
+}
+
+.lines {
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 8px 24px;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 16px;
+  padding-block: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.line img {
+  width: 72px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.price {
+  margin-top: 2px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.quantity {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+
+.quantity button {
+  width: 36px;
+  height: 32px;
+  border: 0;
+  background: none;
+  color: var(--text);
+}
+
+.quantity button:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.quantity span {
+  min-width: 20px;
+  text-align: center;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.remove {
+  align-self: start;
+  padding: 4px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: none;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.foot {
+  display: grid;
+  gap: 12px;
+  padding: 20px 24px calc(24px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.9375rem;
+}
+
+.status {
+  display: block;
+  min-height: 1.4em;
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+}
+
+.status[data-state="error"] { color: var(--error); }

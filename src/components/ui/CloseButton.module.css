@@ -1,0 +1,37 @@
+.close {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(14, 14, 15, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  transition: border-color 0.3s var(--ease), transform 0.5s var(--ease);
+}
+
+.close span,
+.close span::before {
+  grid-area: 1 / 1;
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.close span::before {
+  content: "";
+  display: block;
+  transform: rotate(90deg);
+}
+
+@media (hover: hover) {
+  .close:hover {
+    border-color: var(--line-strong);
+    transform: rotate(90deg);
+  }
+}

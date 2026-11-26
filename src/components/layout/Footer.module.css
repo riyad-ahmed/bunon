@@ -1,0 +1,61 @@
+.footer {
+  overflow: hidden;
+  padding-block: clamp(56px, 8vw, 96px) calc(32px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px 48px;
+}
+
+.tagline {
+  max-width: 22rem;
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.links a,
+.toTop { transition: color 0.3s var(--ease); }
+
+/* Large, quiet logo watermark */
+.mark {
+  margin-top: clamp(56px, 8vw, 96px);
+}
+
+.mark img {
+  width: min(100%, 760px);
+  height: auto;
+  margin-inline: auto;
+  opacity: 0.1;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: clamp(40px, 6vw, 72px);
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+}
+
+@media (hover: hover) {
+  .links a:hover,
+  .toTop:hover { color: var(--text); }
+}

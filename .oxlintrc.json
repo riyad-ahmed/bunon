@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "oxc", "jsx-a11y"],
+  "env": {
+    "browser": true,
+    "es2024": true
+  },
+  "ignorePatterns": ["dist", "node_modules"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    "no-unused-vars": "error"
+  },
+  "overrides": [
+    {
+      "files": ["scripts/**", "*.config.js"],
+      "env": { "node": true, "browser": false }
+    }
+  ]
+}

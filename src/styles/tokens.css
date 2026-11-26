@@ -1,0 +1,48 @@
+/* ==========================================================================
+   BUNON — design tokens
+   Change colours, fonts, spacing and motion for the whole site here.
+   Breakpoints used in the component styles: 600px, 768px, 900px.
+   ========================================================================== */
+
+:root {
+  /* Colour — charcoal black with a warm champagne accent */
+  --bg:          #0e0e0f;
+  --bg-raised:   #131315;
+  --surface:     #1a1a1c;
+  --surface-2:   #222225;
+  --line:        rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --text:        #ecebe7;
+  --text-muted:  #a09f9a;
+  --text-faint:  #7f7e79;
+  --accent:      #c8b48c;
+  --error:       #e3907f;
+  --success:     #a9c9a4;
+
+  /* Type */
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-body:    "Manrope Variable", "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Space */
+  --container: 1200px;
+  --gutter:    clamp(20px, 5vw, 48px);
+  --section-y: clamp(96px, 13vw, 168px);
+  --header-h:  72px;
+  --radius:    2px;
+
+  /* Motion */
+  --ease:        cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration:    0.9s;
+
+  /* Layers */
+  --z-menu:   40;
+  --z-header: 50;
+  --z-grain:  100;
+
+  color-scheme: dark;
+}
+
+@media (max-width: 767px) {
+  :root { --header-h: 64px; }
+}

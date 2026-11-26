@@ -1,6 +1,18 @@
+# Dependencies and build output
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+
 # Local editor / assistant settings — not part of the website
 .claude/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+.idea/
 
 # Operating system files
 .DS_Store

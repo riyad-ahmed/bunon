@@ -1,0 +1,41 @@
+.list {
+  display: grid;
+  gap: 22px;
+  margin-top: 44px;
+}
+
+.list dt {
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.list dd {
+  margin-top: 4px;
+  font-size: 1.0625rem;
+  overflow-wrap: anywhere;
+}
+
+.list a {
+  border-bottom: 1px solid var(--line-strong);
+  transition: border-color 0.4s var(--ease);
+}
+
+.socials {
+  display: flex;
+  gap: 28px;
+  margin-top: 36px;
+}
+
+.socials a {
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  transition: color 0.3s var(--ease);
+}
+
+@media (hover: hover) {
+  .list a:hover { border-color: var(--accent); }
+  .socials a:hover { color: var(--text); }
+}

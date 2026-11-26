@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <!-- Shown for products that don't have a photo in the dashboard yet -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f1e1c"/>
+      <stop offset="1" stop-color="#121213"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.46" r="0.5">
+      <stop offset="0" stop-color="#c8b48c" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#c8b48c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <g fill="none" stroke="#c8b48c" stroke-opacity="0.5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M400 432V404c0-12 9-19 22-24 17-6 28-19 28-36 0-24-22-41-50-41s-48 15-50 37"/>
+    <path d="M400 432 192 566c-16 10-10 26 8 26h400c18 0 24-16 8-26z"/>
+  </g>
+  <path d="M262 664c58-22 108-24 152-12s92 26 134 0" fill="none" stroke="#c8b48c" stroke-opacity="0.42" stroke-width="4" stroke-linecap="round" stroke-dasharray="13 11"/>
+</svg>

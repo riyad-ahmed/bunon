@@ -1,0 +1,20 @@
+.grid {
+  display: grid;
+  gap: 64px;
+}
+
+.intro {
+  max-width: 26rem;
+  margin-top: 24px;
+  font-weight: 300;
+  color: var(--text-muted);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1.1fr;
+    gap: 112px;
+  }
+
+  .formColumn { padding-top: 44px; }
+}

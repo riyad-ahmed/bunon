@@ -1,0 +1,21 @@
+.wrap { display: block; }
+
+.stitch {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  color: var(--accent);
+  clip-path: inset(-20% 100% -20% 0);
+  transition: clip-path 1.8s var(--ease-in-out) 0.25s;
+}
+
+.stitch path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 7 6;
+}
+
+.sewn { clip-path: inset(-20% -2% -20% 0); }
