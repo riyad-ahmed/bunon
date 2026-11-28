@@ -20,10 +20,9 @@ npm run dev     # opens on http://localhost:5173 and updates as you edit
 
 | Command            | What it does                                                        |
 | ------------------ | ------------------------------------------------------------------- |
+| `npm run admin`    | The product dashboard (same as double-clicking **BUNON Products.bat**) |
 | `npm run dev`      | Development server with instant reload                              |
 | `npm run dev:shop` | Same, with the switched-off shopping bag turned on — local preview only |
-| `npm run sync`     | Copy the latest products from the Business Manager dashboard        |
-| `npm run publish:site` | Copy the latest products and put them on the live site (same as **Publish website.bat**) |
 | `npm run build`    | Production build into `dist/`                                       |
 | `npm run preview`  | Serves `dist/` locally, to check the production build               |
 | `npm run lint`     | Code checks (oxlint)                                                |
@@ -37,7 +36,7 @@ npm run dev     # opens on http://localhost:5173 and updates as you edit
 | Email, phone, location, social links, currency     | `src/config/site.js`                             |
 | How the contact form delivers messages             | `src/config/site.js` → `contactForm`             |
 | Headlines and paragraphs                           | `src/content/copy.js` (`*word*` → gold italics)   |
-| Products, photos, prices, colours, sizes, categories | **The Business Manager dashboard** — see below |
+| Products, photos, prices, colours, sizes, categories | **The product dashboard** — see below |
 | Colours, fonts, spacing, animation speed           | `src/styles/tokens.css`                          |
 | Menu items                                         | `src/config/navigation.js`                       |
 
@@ -46,51 +45,54 @@ Contact details (madebybunon@gmail.com, Facebook and Instagram) are set in
 service, see [Contact form](#contact-form)). With no email, phone or social link at all,
 the Contact section says details are coming soon and the "Enquire" buttons hide.
 
-## Products come from the Business Manager dashboard
+## Products: the BUNON product dashboard
 
-Add and edit products in the dashboard (`G:\BUNON\accounting-management`); the website
-follows. Each colour/size record there becomes one choice on a single website product
-(e.g. Hoodie: Green M, Green L, Black L), grouped by name within its category. Names and
-colours typed in lower case are tidied ("black" → "Black").
+**Double-click `BUNON Products.bat`** (in this folder). A black window opens — keep it
+open while you work — and the dashboard opens in the browser at
+http://localhost:5173/admin/. It only exists on this computer; it is never part of the
+website.
 
-The dashboard saves its backup automatically (Backup & Restore → **Choose backup folder…**
-→ **Save automatically after every change**), currently to `G:\BUNON\backup`. The website
-reads the newest backup in the folders listed in `catalog.config.js`, so:
+- **+ নতুন প্রোডাক্ট** → add photos (as many as you like; the first is the cover, ★
+  makes another one the cover, a photo can belong to one colour), name, category,
+  price, colours, sizes, stock and an optional description.
+- **No save button**: every change is saved a moment after you make it.
+- **No publish button needed**: about 20 seconds after the last change the dashboard
+  saves the products in git ("Update products") and pushes them; GitHub rebuilds the
+  live site in a minute or two. The status at the top shows what's happening
+  (**এখনই পাঠান** sends straight away). Without internet it keeps trying, and picks up
+  anything left over the next time it starts.
+- A product appears on the website once it has a **name and at least one photo**,
+  unless **ওয়েবসাইটে দেখান** is switched off. No price → "Price on request"; stock 0 →
+  "Sold out". Newest products come first.
+- **প্রিভিউ** opens the website on this computer, updated instantly.
 
-- `npm run dev` updates the open website within a few seconds of each change;
-- **double-click `Publish website.bat`** (or `npm run publish:site`) to put the latest
-  products on the live site. It saves only the product files in git and pushes them;
-  GitHub rebuilds the site in a minute or two. GitHub's servers can't reach this PC,
-  so this step is needed after product changes;
-- `npm run sync` (or `npm run build`) only refreshes the products in the project.
+Where things are saved:
 
-What is copied — and what never is:
+| File | What | Public? |
+| --- | --- | --- |
+| `src/data/products.json` | Products: name, category, price, colours, sizes, description, photos, sold out, shown/hidden | Yes — it builds the website |
+| `src/assets/products/photos/` | Photos, resized to at most 1600px | Yes |
+| `private/stock.json` | How many of each are in stock | **No** — stays on this computer (git ignores it) |
 
-| Copied to the website | Never copied |
-| --- | --- |
-| Name, category, colour, size, description, selling price, photo, in stock yes/no | Costs, cost breakdown, profit, notes, SKU, stock counts, orders, customers, income, expenses, capital, SHAD |
-
-Each dashboard product has a **Website** field: *Hide from website* keeps it off the site.
-No selling price → "Price on request"; no photo → a neutral placeholder; stock at zero →
-"Sold out". Settings live in `catalog.config.js`; the generated files are
-`src/data/catalog.json` and `src/assets/products/catalog/` — don't edit them by hand.
+The dashboard is plain HTML/CSS/JS in `admin/`; its server side (saving, photos,
+publishing) is `scripts/admin/`, run by Vite only in `--mode admin`. Publishing only
+ever includes the product files above, and stops if other changes are staged in git.
 
 ## Project structure
 
 ```
 BUNON/
 ├── .github/workflows/deploy.yml   Builds and publishes to GitHub Pages on every push to main
-├── catalog.config.js              Where products come from (the dashboard's backup folders)
-├── Publish website.bat            Double-click: put the dashboard's latest products online
-├── scripts/catalog/               Dashboard → website product sync (and its tests)
-├── scripts/publish-site.js        What Publish website.bat runs
+├── BUNON Products.bat             Double-click: open the product dashboard
+├── admin/                         The product dashboard page (HTML, CSS, JS)
+├── scripts/admin/                 Its server side: saving, photos, publishing (and tests)
 ├── public/                        Copied as-is: favicons, link-preview image, .nojekyll
 ├── src/
 │   ├── main.jsx                   Entry point: fonts, global styles, <App />
 │   ├── App.jsx                    Page layout and providers
 │   ├── assets/
 │   │   ├── brand/                 Logo (original + reversed version for the dark theme)
-│   │   └── products/              Placeholder + photos synced from the dashboard (catalog/)
+│   │   └── products/              Placeholder + product photos (photos/, from the dashboard)
 │   ├── components/
 │   │   ├── layout/                Header, MobileMenu, Footer
 │   │   ├── sections/              Hero, About, Products, Contact
@@ -100,7 +102,7 @@ BUNON/
 │   ├── config/                    site.js · navigation.js · commerce.js
 │   ├── content/copy.js            All website text
 │   ├── context/enquiry/           Connects "Enquire" buttons to the contact form
-│   ├── data/                      catalog.json (synced from the dashboard) + products.js
+│   ├── data/                      products.json (from the dashboard) + products.js
 │   ├── features/commerce/         Online shop — bag, checkout, payment providers (off)
 │   ├── hooks/                     Scroll, reveal and menu behaviour
 │   ├── lib/                       Small helpers (prices, images, storage, scrolling)
@@ -145,8 +147,8 @@ Preview it locally with `npm run dev:shop`. To open the shop:
 
 1. Choose a payment `provider` in `src/config/commerce.js`:
    - `'payment-links'` — a hosted checkout link per product (Stripe Payment Links,
-     PayPal, …). Add a `paymentLink` field to products in the dashboard's
-     `js/core/schemas.js`; the sync carries `https://` links over. No server needed.
+     PayPal, …). Products already pass a `paymentLink` field through to the website; add
+     a box for it in the product dashboard when you need it. No server needed.
    - `'checkout-endpoint'` — a small serverless function creates a checkout session for
      the whole bag. Needed for multi-item bags and for gateways that use secret keys
      (SSLCommerz, bKash, Stripe Checkout). It must look up prices itself — never trust
@@ -156,8 +158,8 @@ Preview it locally with `npm run dev:shop`. To open the shop:
 
 ## Notes for developers
 
-- Logic modules that have tests (`lib/format.js`, `services/enquiry.js`,
-  `features/commerce/cart|checkout`) use relative imports with `.js` extensions, so plain
+- Logic modules that have tests (`lib/catalog.js`, `lib/presets.js`, `lib/format.js`,
+  `services/enquiry.js`, `features/commerce/cart|checkout`, `scripts/admin/`) use relative imports with `.js` extensions, so plain
   Node can run them in `npm test`. Components use the `@/` alias for `src/`.
 - `vite.config.js` sets `root` to the project folder's real path. On Windows a terminal
   can open in `h:\BUNON` while packages resolve to `H:\BUNON`; without this, Vite 8

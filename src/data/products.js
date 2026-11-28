@@ -1,26 +1,35 @@
 /**
  * BUNON — products
  * ---------------------------------------------------------------------------
- * Products come from the Business Manager dashboard: add or edit them there.
- * The dashboard's backup is turned into catalog.json automatically (see
- * catalog.config.js), so don't edit catalog.json by hand.
+ * Products are added in the BUNON product dashboard (double-click
+ * "BUNON Products.bat"). It saves products.json and the photos in
+ * src/assets/products/photos/ by itself — no need to edit them by hand.
+ *
+ * A product shows on the website once it has a name and at least one photo,
+ * unless it is set to hidden. Newest products come first.
  */
-import catalog from './catalog.json'
-import { describeProduct, slugify } from '@/lib/catalog'
+import data from './products.json'
+import { describeProduct, isPublishable, slugify } from '@/lib/catalog'
 
-/** Each product with its colours, sizes, price range and options worked out. */
-export const products = catalog.products.map((product) => ({
-  ...describeProduct(product),
-  categoryId: slugify(product.category),
-}))
+const newestFirst = (a, b) => String(b.createdAt ?? '').localeCompare(String(a.createdAt ?? ''))
 
-/** Filter buttons: "All" plus the dashboard's product categories. */
+/** Each product with its photos, colours, sizes and options worked out. */
+export const products = data.products
+  .filter(isPublishable)
+  .sort(newestFirst)
+  .map((product) => {
+    const described = describeProduct(product)
+    return { ...described, categoryId: slugify(described.category) }
+  })
+
+/** Filter buttons: "All" plus the categories, in the dashboard's order. */
+const categoryNames = [...new Set([...(data.categories ?? []), ...products.map((product) => product.category)])]
 export const categories = [
   { id: 'all', label: 'All' },
-  ...catalog.categories.map((name) => ({ id: slugify(name), label: name })),
+  ...categoryNames.map((name) => ({ id: slugify(name), label: name })),
 ]
 
-/** productsById['hoodie'] → product */
+/** productsById['a1b2c3d4'] → product */
 export const productsById = Object.fromEntries(products.map((product) => [product.id, product]))
 
 /** Every option a customer can pick (product + colour + size), for the bag. */

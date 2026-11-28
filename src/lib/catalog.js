@@ -1,9 +1,8 @@
 /**
- * Helpers for the product catalogue (src/data/catalog.json, generated from
- * the Business Manager dashboard). Plain functions, checked by `npm test`.
+ * Helpers for the website's products (src/data/products.json, written by the
+ * BUNON product dashboard). Plain functions, checked by `npm test`.
  */
-
-const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '2XL', 'XXXL', '3XL', '4XL', '5XL']
+import { sortSizes } from './presets.js'
 
 export function slugify(value) {
   const slug = String(value ?? '')
@@ -16,15 +15,20 @@ export function slugify(value) {
   return slug || 'item'
 }
 
-function sizeRank(size) {
-  const value = String(size ?? '').toUpperCase()
-  const index = SIZE_ORDER.indexOf(value)
-  if (index >= 0) return index
-  const n = parseFloat(value)
-  return Number.isFinite(n) ? 100 + n : 1000
+const text = (value) => String(value ?? '').trim()
+/** Drops blanks and repeats ("black" after "Black"), keeping the first spelling. */
+function unique(values) {
+  const seen = new Map()
+  for (const value of values.map(text)) {
+    if (value && !seen.has(value.toLowerCase())) seen.set(value.toLowerCase(), value)
+  }
+  return [...seen.values()]
 }
 
-const compareSizes = (a, b) => sizeRank(a) - sizeRank(b) || String(a).localeCompare(String(b))
+/** A product appears on the website once it has a name and a photo — unless it's hidden. */
+export function isPublishable(product) {
+  return Boolean(product && product.visible !== false && text(product.name) && product.photos?.length)
+}
 
 /** "Hoodie — Green, M" */
 export function optionLabel(productName, { color, size }) {
@@ -33,54 +37,55 @@ export function optionLabel(productName, { color, size }) {
 }
 
 /**
- * One choosable option per variant and size — what a customer actually picks
- * (and what the bag holds): { id, name, color, size, price, image, inStock }
+ * Everything the product cards and detail view need, worked out once.
+ *  - photos: [{ src: 'photos/<file>', color }] — the first one is the cover;
+ *    a photo can belong to one colour
+ *  - options: one per colour × size — what a customer actually picks (and
+ *    what the bag holds): { id, name, color, size, price, image, inStock }
  */
-export function productOptions(product) {
-  return product.variants.flatMap((variant) => {
-    const sizes = variant.sizes.length ? variant.sizes : ['']
-    return sizes.map((size) => {
-      const option = {
-        id: sizes.length > 1 ? `${variant.id}::${size}` : variant.id,
-        productId: product.id,
-        color: variant.color,
-        size,
-        price: variant.price,
-        image: variant.image,
-        inStock: variant.inStock,
-      }
-      if (variant.paymentLink) option.paymentLink = variant.paymentLink
-      return { ...option, name: optionLabel(product.name, option) }
-    })
-  })
-}
-
-/** Everything the product cards and detail view need, worked out once. */
 export function describeProduct(product) {
-  const options = productOptions(product)
-  const colors = [...new Set(options.map((o) => o.color).filter(Boolean))]
-  const sizes = [...new Set(options.map((o) => o.size).filter(Boolean))].sort(compareSizes)
-  const prices = options.map((o) => o.price).filter((price) => typeof price === 'number')
-  const pictured = options.find((o) => o.image && o.inStock) ?? options.find((o) => o.image)
+  const photos = (product.photos ?? []).map((photo) => ({ src: `photos/${photo.file}`, color: text(photo.color) }))
+  const colors = unique(product.colors ?? [])
+  const sizes = sortSizes(unique(product.sizes ?? []))
+  const price = typeof product.price === 'number' && product.price > 0 ? product.price : null
+  const inStock = !product.soldOut
+  const image = photos[0]?.src ?? null
+  const photoOf = (color) => (color && photos.find((photo) => photo.color === color)?.src) || image
+
+  const options = (colors.length ? colors : ['']).flatMap((color) =>
+    (sizes.length ? sizes : ['']).map((size) => {
+      const option = {
+        id: [product.id, color, size].filter(Boolean).join('::'),
+        productId: product.id,
+        color,
+        size,
+        price,
+        image: photoOf(color),
+        inStock,
+      }
+      if (product.paymentLink) option.paymentLink = product.paymentLink
+      return { ...option, name: optionLabel(product.name, option) }
+    }),
+  )
 
   return {
-    ...product,
-    options,
+    id: product.id,
+    name: text(product.name),
+    category: text(product.category) || 'Other',
+    description: text(product.description),
+    price,
+    photos,
+    image,
     colors,
     sizes,
-    soldOutSizes: sizes.filter((size) => options.filter((o) => o.size === size).every((o) => !o.inStock)),
-    soldOutColors: colors.filter((color) => options.filter((o) => o.color === color).every((o) => !o.inStock)),
-    priceMin: prices.length ? Math.min(...prices) : null,
-    priceMax: prices.length ? Math.max(...prices) : null,
-    image: pictured?.image ?? null,
-    inStock: options.some((o) => o.inStock),
+    options,
+    inStock,
   }
 }
 
-/** 'Price on request' · '৳1,800' · 'From ৳1,500' */
-export function priceLabel(min, max, format) {
-  if (min == null) return 'Price on request'
-  return min === max ? format(min) : `From ${format(min)}`
+/** 'Price on request' · '৳1,800' */
+export function priceLabel(price, format) {
+  return price == null ? 'Price on request' : format(price)
 }
 
 /** The options in one colour (every option when the product has no colours). */
@@ -88,7 +93,7 @@ export function optionsInColor(product, color) {
   return product.colors.length ? product.options.filter((o) => o.color === color) : product.options
 }
 
-/** Starting choice for the detail view: the first option that's in stock. */
+/** Starting choice for the detail view: the first colour and size. */
 export function defaultSelection(product) {
   const first = product?.options.find((o) => o.inStock) ?? product?.options[0]
   return { color: first?.color ?? '', size: first?.size ?? '' }

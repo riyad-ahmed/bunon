@@ -10,16 +10,24 @@ import { defaultSelection, findOption, optionsInColor, priceLabel } from '@/lib/
 import { cx } from '@/lib/cx'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/images'
+import { swatchFor } from '@/lib/presets'
 import styles from './ProductQuickView.module.css'
 
+/** Index of the first photo that belongs to a colour, or null. */
+function photoOfColor(product, color) {
+  const index = (product?.photos ?? []).findIndex((photo) => color && photo.color === color)
+  return index >= 0 ? index : null
+}
+
 /**
- * Larger photo and details for one product, with colour and size choices.
+ * Photos, details and colour/size choices for one product.
  * (Rendered with key={product.id}, so choices start fresh for each product.)
  */
 export default function ProductQuickView({ product, open, onClose }) {
   const { enquireAbout } = useEnquiryActions()
   const { add } = useCartActions()
   const [selection, setSelection] = useState(() => defaultSelection(product))
+  const [photo, setPhoto] = useState(() => photoOfColor(product, defaultSelection(product).color) ?? 0)
   // Something to do once the closing animation has finished
   const afterCloseRef = useRef(null)
 
@@ -28,14 +36,16 @@ export default function ProductQuickView({ product, open, onClose }) {
   const { color, size } = selection
   const inColor = optionsInColor(product, color)
   const option = findOption(product, selection)
-  const image = option?.image ?? inColor.find((o) => o.image)?.image ?? product.image
-  const price = option ? priceLabel(option.price, option.price, formatPrice) : priceLabel(product.priceMin, product.priceMax, formatPrice)
+  const photos = product.photos
+  const count = photos.length
+  const current = photos[photo] ?? photos[0]
 
   const chooseColor = (nextColor) => {
     const options = optionsInColor(product, nextColor)
-    const keepSize = options.some((o) => o.size === size && o.inStock)
-    const nextSize = keepSize ? size : ((options.find((o) => o.inStock) ?? options[0])?.size ?? '')
-    setSelection({ color: nextColor, size: nextSize })
+    const keepSize = options.some((o) => o.size === size)
+    setSelection({ color: nextColor, size: keepSize ? size : (options[0]?.size ?? '') })
+    const index = photoOfColor(product, nextColor)
+    if (index != null) setPhoto(index)
   }
 
   const closeThen = (action) => {
@@ -58,7 +68,57 @@ export default function ProductQuickView({ product, open, onClose }) {
         <CloseButton className={styles.close} label="Close product details" onClick={onClose} />
 
         <div className={styles.media}>
-          <img src={getProductImage(image)} alt={option?.name ?? product.name} width="800" height="1000" />
+          <div className={styles.stage}>
+            <img
+              key={current?.src ?? 'none'}
+              className={styles.photo}
+              src={getProductImage(current?.src)}
+              alt={count > 1 ? `${product.name}, photo ${photo + 1} of ${count}` : product.name}
+              width="800"
+              height="1000"
+            />
+            {count > 1 && (
+              <>
+                <button
+                  type="button"
+                  className={cx(styles.step, styles.prev)}
+                  aria-label="Previous photo"
+                  onClick={() => setPhoto((photo - 1 + count) % count)}
+                >
+                  <span aria-hidden="true">‹</span>
+                </button>
+                <button
+                  type="button"
+                  className={cx(styles.step, styles.next)}
+                  aria-label="Next photo"
+                  onClick={() => setPhoto((photo + 1) % count)}
+                >
+                  <span aria-hidden="true">›</span>
+                </button>
+                <p className={styles.counter} aria-hidden="true">
+                  {photo + 1} / {count}
+                </p>
+              </>
+            )}
+          </div>
+
+          {count > 1 && (
+            <ul className={styles.thumbs} aria-label="Photos">
+              {photos.map((item, index) => (
+                <li key={item.src}>
+                  <button
+                    type="button"
+                    className={styles.thumb}
+                    aria-label={`Photo ${index + 1}${item.color ? ` (${item.color})` : ''}`}
+                    aria-current={index === photo ? 'true' : undefined}
+                    onClick={() => setPhoto(index)}
+                  >
+                    <img src={getProductImage(item.src)} alt="" width="56" height="70" loading="lazy" decoding="async" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className={styles.info}>
@@ -66,7 +126,7 @@ export default function ProductQuickView({ product, open, onClose }) {
           <h2 id="quick-view-title" className={styles.title}>
             {product.name}
           </h2>
-          <p className={styles.price}>{price}</p>
+          <p className={styles.price}>{priceLabel(product.price, formatPrice)}</p>
           {product.description && <p className={styles.description}>{product.description}</p>}
 
           {product.colors.length > 0 && (
@@ -75,18 +135,21 @@ export default function ProductQuickView({ product, open, onClose }) {
                 Colour <span>{color}</span>
               </legend>
               <div className={styles.chips}>
-                {product.colors.map((name) => (
-                  <button
-                    key={name}
-                    type="button"
-                    className={cx(styles.chip, product.soldOutColors.includes(name) && styles.chipSoldOut)}
-                    aria-pressed={name === color}
-                    onClick={() => chooseColor(name)}
-                  >
-                    {name}
-                    {product.soldOutColors.includes(name) && <span className="visually-hidden"> (sold out)</span>}
-                  </button>
-                ))}
+                {product.colors.map((name) => {
+                  const swatch = swatchFor(name)
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      className={styles.chip}
+                      aria-pressed={name === color}
+                      onClick={() => chooseColor(name)}
+                    >
+                      {swatch && <span className={styles.swatch} style={{ '--swatch': swatch }} aria-hidden="true" />}
+                      {name}
+                    </button>
+                  )
+                })}
               </div>
             </fieldset>
           )}
@@ -103,19 +166,18 @@ export default function ProductQuickView({ product, open, onClose }) {
                     <button
                       key={o.id}
                       type="button"
-                      className={cx(styles.chip, styles.sizeChip, !o.inStock && styles.chipSoldOut)}
+                      className={cx(styles.chip, styles.sizeChip)}
                       aria-pressed={o.size === size}
                       onClick={() => setSelection({ color, size: o.size })}
                     >
                       {o.size}
-                      {!o.inStock && <span className="visually-hidden"> (sold out)</span>}
                     </button>
                   ))}
               </div>
             </fieldset>
           )}
 
-          {option && !option.inStock && (
+          {!product.inStock && (
             <p className={styles.stock}>
               {canEnquire
                 ? 'This one is sold out — enquire and we’ll let you know when it’s back.'

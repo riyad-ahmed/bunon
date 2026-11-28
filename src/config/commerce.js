@@ -28,11 +28,10 @@ export const commerce = {
   /**
    * How checkout works once enabled:
    *  'payment-links'     — each product has a hosted checkout link from your
-   *                        provider (e.g. Stripe Payment Links). Add a
-   *                        `paymentLink` field to products in the dashboard
-   *                        (one line in its js/core/schemas.js); the sync
-   *                        carries https links over. One product per purchase;
-   *                        no server needed.
+   *                        provider (e.g. Stripe Payment Links), saved as a
+   *                        `paymentLink` field on the product (add a box for
+   *                        it in the product dashboard). One product per
+   *                        purchase; no server needed.
    *  'checkout-endpoint' — a small serverless function (e.g. Cloudflare Workers)
    *                        receives the whole bag, creates a checkout session
    *                        with your provider and returns its URL. Needed for

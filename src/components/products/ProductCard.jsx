@@ -4,13 +4,14 @@ import { canEnquire } from '@/config/site'
 import { useEnquiryActions } from '@/context/enquiry/useEnquiry'
 import { PurchaseActions } from '@/features/commerce'
 import { priceLabel } from '@/lib/catalog'
-import { cx } from '@/lib/cx'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/images'
 import styles from './ProductCard.module.css'
 
 export default function ProductCard({ product, index, onOpen }) {
   const { enquireAbout } = useEnquiryActions()
+  // A second photo fades in on hover (mouse users), if there is one
+  const second = product.photos[1]?.src
 
   return (
     <Reveal as="article" className={styles.card} delay={index % 3}>
@@ -30,9 +31,22 @@ export default function ProductCard({ product, index, onOpen }) {
           loading="lazy"
           decoding="async"
         />
+        {second && (
+          <img
+            className={styles.imageAlt}
+            src={getProductImage(second)}
+            alt=""
+            width="800"
+            height="1000"
+            loading="lazy"
+            decoding="async"
+          />
+        )}
         {!product.inStock && <span className={styles.badge}>Sold out</span>}
         <span className={styles.hint} aria-hidden="true">
-          <span className={styles.hintText}>Quick view</span>
+          <span className={styles.hintText}>
+            {product.photos.length > 1 ? `Quick view · ${product.photos.length} photos` : 'Quick view'}
+          </span>
           <span className={styles.hintIcon} />
         </span>
       </button>
@@ -40,22 +54,16 @@ export default function ProductCard({ product, index, onOpen }) {
       <div className={styles.body}>
         <div className={styles.row}>
           <h3 className={styles.name}>{product.name}</h3>
-          <p className={styles.price}>{priceLabel(product.priceMin, product.priceMax, formatPrice)}</p>
+          <p className={styles.price}>{priceLabel(product.price, formatPrice)}</p>
         </div>
 
         {product.colors.length > 0 && <p className={styles.colors}>{product.colors.join(' · ')}</p>}
 
         {product.sizes.length > 0 && (
           <ul className={styles.sizes} aria-label="Sizes">
-            {product.sizes.map((size) => {
-              const soldOut = product.soldOutSizes.includes(size)
-              return (
-                <li key={size} className={cx(soldOut && styles.soldOut)}>
-                  {size}
-                  {soldOut && <span className="visually-hidden"> (sold out)</span>}
-                </li>
-              )
-            })}
+            {product.sizes.map((size) => (
+              <li key={size}>{size}</li>
+            ))}
           </ul>
         )}
 

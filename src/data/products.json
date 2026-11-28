@@ -1,0 +1,58 @@
+{
+  "categories": [
+    "Hoodie",
+    "Sweatshirt",
+    "T-Shirt",
+    "Henley"
+  ],
+  "products": [
+    {
+      "id": "hoodie",
+      "name": "Hoodie",
+      "category": "Hoodie",
+      "price": 550,
+      "colors": [
+        "Black"
+      ],
+      "sizes": [
+        "L"
+      ],
+      "description": "",
+      "photos": [
+        {
+          "file": "df6850068205.jpg",
+          "color": ""
+        }
+      ],
+      "soldOut": false,
+      "visible": true,
+      "createdAt": "2026-11-26T15:31:00.000Z",
+      "updatedAt": "2026-11-26T15:31:00.000Z"
+    },
+    {
+      "id": "sweatshirt",
+      "name": "Sweatshirt",
+      "category": "Sweatshirt",
+      "price": 490,
+      "colors": [
+        "Black"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "description": "",
+      "photos": [
+        {
+          "file": "9ee775263c5a.jpg",
+          "color": ""
+        }
+      ],
+      "soldOut": false,
+      "visible": true,
+      "createdAt": "2026-11-26T15:30:00.000Z",
+      "updatedAt": "2026-11-26T15:30:00.000Z"
+    }
+  ]
+}
